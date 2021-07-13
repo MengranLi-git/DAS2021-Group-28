@@ -31,6 +31,8 @@ Data[,c(2,3)] %>%
   geom_histogram(aes(x=value), fill="#80C687", color="#80C687", alpha=0.8) +
   facet_wrap(~variable, scales = "free")
 
+ggplot(data = data.frame(Data), mapping = aes(x = Data$country, y = ..count..)) + geom_bar(stat = 'count')
+ggplot(data = data.frame(Data), mapping = aes(x = Data$province, y = ..count..)) + geom_bar(stat = 'count')
 
 
 
