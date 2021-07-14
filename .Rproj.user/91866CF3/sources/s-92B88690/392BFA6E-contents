@@ -1,0 +1,64 @@
+############ Script for Task 2 
+
+#library for GEV models
+library(ismev)
+##################################################
+##################################################
+###             River Ewe
+
+#Read the data
+ewe <- read.table("ewe_dailyflow_noleap.txt",header=T)
+
+dat <- ewe
+
+name_river <- "Ewe"
+
+flow.o <- dat[,4] # original flow data
+
+## we'll work with logged data
+flow.log <- log(flow.o)
+
+
+###
+### Creating time series for daily data
+###
+names(ewe)
+
+## We start our time series on the 291st day of the year 
+## 19-10-1970
+
+river.log.ts <- ts(flow.log,start=291, frequency=365)
+
+### Length of the daily time series : 13944 
+length(river.log.ts)
+
+plot(river.log.ts)
+
+
+## This bit of the code extracts the yearly maximum values
+sp <- split(river.log.ts, dat$year)
+yearmax <- unlist(lapply(sp, max, na.rm=TRUE))
+ymx <- ts(yearmax, start=dat$year[1], frequency=1)
+
+## Exploratory analysis - plot the yearly maximum flows:
+plot(ymx,ylab="Yearly maximum flow")
+
+## fit the gev model
+model1 <- gev.fit(ymx)
+
+# Get the MLEs and associated standard errors:
+model1$mle
+model1$se
+?gev.fit # "Value" section in help file shows that these are for location, scale and shape parameters, respectively.
+
+## get the diagnostics
+gev.diag(model1)
+
+## have a closer look at the return level plot
+gev.rl(model1$mle, model1$cov, model1$data)
+ 
+## compare to average river levels
+summary(flow.log)
+
+
+
