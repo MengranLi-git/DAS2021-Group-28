@@ -1,0 +1,80 @@
+######                     #######
+###### QUANTILE REGRESSION #######
+######                     #######
+setwd("/Users/janineillian/labs")
+
+
+#############
+############# LINEAR QUANTILE REGRESSION
+#############
+
+#### Load needed library
+library(quantreg)
+library(ismev)
+#install.packages("quantreg")
+
+par(pty="m")
+#### Load the data
+load(file="rivers.rda")
+# This is a matrix containing logged daily data for 119 Scottish rivers begining on the 
+# 8th of November 1995
+
+# To see the names of the rivers
+rownames(rivers)[49]
+
+## Select 1 of the rivers and a subsection of the time series
+i.river <- 49
+y <- rivers[i.river,1:300]
+x <- 1:length(y)
+
+
+### Plot the data along with mean regression and quantile regression for a selected quantile
+plot(x,y,cex=0.5,xlab="Time",ylab="log(flow)")
+
+### Fit a linear model to the data
+model.lm<-lm(y~x)
+summary(model.lm)
+
+# Check assumptions
+par(mfrow=c(2,2))
+plot(model.lm)
+par(mfrow=c(1,1))
+
+### Quantile regression
+# re-plot data:
+plot(x,y,cex=0.5,xlab="Time",ylab="log(flow)")
+
+## Add fitted line corresponding to the 90th quantile. [rq() is the function for quantile regression.]
+abline(rq(y~x,tau=0.1),col="blue",lwd=3)
+abline(rq(y~x,tau=0.5),col="red",lwd=3)
+abline(rq(y~x,tau=0.8),col="yellow",lwd=3)
+abline(rq(y~x,tau=0.95),col="green",lwd=3)
+## Add fitted line for linear model
+abline(model.lm,lwd=3,lty=2)
+
+legend("topright",lty=c(1,1,1,1,2),col=c("blue","red","yellow","green","black"),legend=c("q0.1","q0.5","q0.8","q0.95","linear regression"),lwd=3,bty="n")
+
+
+## Fit a quantile model for a range of quantiles (there are specifying using the "tau" argument)
+model <- rq(y~x,tau=c(0.1,0.5,0.8,0.95))
+model.summary <- summary(model)
+
+# Have a look at the fitted models
+model.summary
+
+# Plot the estimated intercept and slope along with confidence intervals
+plot(model.summary)
+
+
+
+## Look at the residuals from the tau=0.8 model
+model1 <- rq(y~x,tau=0.8)
+resid1 <- model1$residuals
+
+# What proportion of the residuals are negative?
+mean(resid1<0)
+
+# What is the 80th percentile of the residuals?
+quantile(resid1,0.8)
+
+

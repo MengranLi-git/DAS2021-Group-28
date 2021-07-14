@@ -1,0 +1,15 @@
+
+
+Data <- Data %>% mutate(
+  countinent = 
+    case_when(country %in% c("Argentina",  "Canada", 
+                             "Chile", "Uruguay", "US") ~ "America",
+              country %in% c("Australia", "New Zealand") ~ "Oceania",
+              country %in% c("South Africa")~"Africa",
+              country %in% c("Georgia", "Israel", "Turkey")~"Asia",
+              country %in% c("Austria", "Croatia", "England", 
+                             "France", "Germany", "Greece", "Hungary", 
+                             "Italy", "Macedonia", "Portugal",
+                             "Romania", "Slovenia", "Spain", "Ukraine")~"Europe"
+    ) 
+)
