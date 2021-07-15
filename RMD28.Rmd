@@ -1,0 +1,176 @@
+---
+title: "Properties that influence wine score"
+author: 'Group 28: Aishwin Tikku, Mengran Li, Steven Kwok, Shaoquan Li, Shuning Li'
+
+output:
+  pdf_document:
+    latex_engine: pdflatex
+    number_sections: no
+  html_document:
+    df_print: paged
+fig_caption: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, eval = TRUE, warning = FALSE, message = FALSE, comment = NA, fig.pos = 'H')
+
+options(digits = 4)
+```
+
+
+```{r libraries}
+library(tidyverse)
+library(ggplot2)
+library(tidymodels)
+library(GGally)
+library(car)
+library(sjPlot)
+library(skimr)
+library(kableExtra)
+library(knitr)
+library(janitor)
+```
+
+
+``` {r echo = FALSE, eval = TRUE, warning = FALSE, message = FALSE}
+setwd("C:\\Users\\Aishwin Tikku\\Documents\\GitHub\\DAS2021-Group-28")
+Data <- read.csv("dataset28.csv")
+```
+
+
+# Introduction {#sec : Intro}
+The whole data set has 7 factors and 2000 observations.
+
+# Exploratory Data Analysis { #sec : EDA}
+```{r echo=FALSE, eval=TRUE, message=FALSE,warning=FALSE}
+
+Data <- Data[, -1]
+Data$country <- as.factor(Data$country)
+Data$province <- as.factor(Data$province)
+Data$title <- as.factor(Data$title)
+Data$variety <- as.factor(Data$variety)
+Data$winery <- as.factor(Data$winery)
+
+# Group by points, those greater than 90 are pass, others are fail
+Data <- Data %>% mutate(score = ifelse(points > 90, "Pass", "Fail"))
+Data$score <- as.factor(Data$score)
+```
+
+
+```{r his, fig.width=6, fig.height=4, fig.align='center',echo = FALSE, eval = TRUE, warning = FALSE, message = FALSE, fig.cap="\\label{fig:hist} Histogram of Price and Points"}
+
+
+#### descriptive statistics ####
+Data[, c(2, 3)] %>%
+  gather(key = "variable", value = "value") %>%
+  ggplot() +
+  geom_histogram(aes(x = value), fill = "#80C687", color = "#80C687", alpha = 0.8) +
+  facet_wrap(~variable, scales = "free")
+
+```
+
+
+```{r boxplot, eval=TRUE, echo=FALSE, fig.align="center", fig.cap="\\label{fig:box} Boxplot of points by country", message=FALSE, warning=FALSE, out.width='75%', fig.pos='H'}
+
+ggplot(data = Data) +
+  geom_boxplot(aes(points, country))
+
+```
+
+```{r echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+ Data %>%
+  tabyl(country,score)%>%
+  adorn_percentages()%>%
+  adorn_pct_formatting()%>%
+  adorn_ns()
+
+```
+
+
+```{r echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+
+
+# chi square test
+chisq.test(Data$country, Data$score)
+
+```
+
+
+
+```{r dplot, eval=TRUE, echo=FALSE, fig.align="center", fig.cap="\\label{fig:dplot} Density plot by score", message=FALSE, warning=FALSE, out.width='75%', fig.pos='H'}
+
+
+ggplot(data = Data) +
+  geom_density(aes(price, group = score, fill = score))
+
+```
+
+
+
+
+
+
+
+# Formal Data Analysis {#sec:FDA}
+
+```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
+#### glm model ####
+fit <- glm(score ~ price + country,
+  data = Data,
+  family = binomial(link = "logit"))
+s <- fit %>% summary()
+kable(s$coefficients, caption = "Summary Statistics of GLM Model")
+```
+NewZealand and Italy are significantly different from others
+
+
+GLM MOdel for New Zealand
+```{r nz, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE, }
+
+NewZealand <- Data %>% filter(country == "New Zealand")
+
+nz <- glm(score ~ price + province + variety,
+  data = NewZealand,
+  family = binomial(link = "logit"))
+nzland <- nz %>% 
+  summary()
+
+kable(round(nzland$coefficients,4), caption = "GLM Model for New Zealand")
+  
+  
+
+```
+
+GLM Model for Italy
+```{r itly, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
+
+Italy <- Data %>% filter(country == "Italy")
+
+it <- glm(score ~ price + province + variety,
+  data = Italy,
+  family = binomial(link = "logit"))
+itly <- it %>% 
+  summary()
+
+kable(round(itly$coefficients,4), caption = "GLM Model for Italy")
+  
+```
+
+
+
+GLM Model & Predicted Values Plot based on only Price
+```{r model, echo=FALSE,eval=TRUE, message=FALSE, warning=FALSE, fig.cap="\\label{fig:pred} Pass Probability Plot by Price", message=FALSE, warning=FALSE, out.width='75%', fig.pos='H'}
+
+# model with only price
+
+fit1 <- glm(score ~ price,
+  data = Data,
+  family = binomial(link = "logit"))
+
+plot_model(fit1,
+  type = "pred", title = "",
+  axis.title = c("price", "Probability of pass"))
+  
+
+
+```

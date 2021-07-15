@@ -5,7 +5,7 @@ library(car)
 library(sjPlot)
 
 
-# setwd("~/Desktop/Data Analysis Skills/Group work 2/Datasets-20210710")
+setwd("C:\\Users\\Aishwin Tikku\\Documents\\GitHub\\DAS2021-Group-28")
 Data <- read.csv("dataset28.csv")
 # The whole data set has 7 factors and 2000 observations.
 # The explanatory variables are:
@@ -80,7 +80,9 @@ glm(score ~ price + province + variety,
 # model with only price
 fit1 <- glm(score ~ price,
   data = Data,
-  family = binomial(link = "logit"))
+  family = binomial(link = "logit")) %>%
+  summary()
+fit1
 
 plot_model(fit1,
   type = "pred", title = "",
