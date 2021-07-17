@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.7.6)  17 JUL 2021 11:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.7.6)  17 JUL 2021 20:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -667,13 +667,13 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: RMD28_files/figure-latex/his-1.pdf Graphic file (type pdf)
 <use RMD28_files/figure-latex/his-1.pdf>
 Package pdftex.def Info: RMD28_files/figure-latex/his-1.pdf  used on input line
- 98.
+ 115.
 (pdftex.def)             Requested size: 433.63878pt x 289.09251pt.
 <RMD28_files/figure-latex/boxplot-1.pdf, id=25, 469.755pt x 325.215pt>
 File: RMD28_files/figure-latex/boxplot-1.pdf Graphic file (type pdf)
 <use RMD28_files/figure-latex/boxplot-1.pdf>
 Package pdftex.def Info: RMD28_files/figure-latex/boxplot-1.pdf  used on input 
-line 107.
+line 124.
 (pdftex.def)             Requested size: 352.31538pt x 243.91064pt.
 [1
 
@@ -682,65 +682,65 @@ x.map}pdfTeX warning (ext4): destination with the same identifier (name{figure.
 1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.113 
+l.130 
        <./RMD28_files/figure-latex/his-1.pdf>]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
-14.
+31.
 (c:/Users/Derek/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [2pdfTeX warning (ext4): destination with the same identifier (name{figure.2}
 ) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.149 \end{verbatim}
+l.166 \end{verbatim}
                      <./RMD28_files/figure-latex/boxplot-1.pdf>]
 <RMD28_files/figure-latex/dplot-1.pdf, id=57, 469.755pt x 325.215pt>
 File: RMD28_files/figure-latex/dplot-1.pdf Graphic file (type pdf)
 <use RMD28_files/figure-latex/dplot-1.pdf>
 Package pdftex.def Info: RMD28_files/figure-latex/dplot-1.pdf  used on input li
-ne 153.
+ne 170.
 (pdftex.def)             Requested size: 352.31538pt x 243.91064pt.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 167.
+(Font)              <10> on input line 184.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 167.
+(Font)              <7> on input line 184.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 167.
+(Font)              <5> on input line 184.
 
-LaTeX Warning: Float too large for page by 97.65839pt on input line 390.
+LaTeX Warning: Float too large for page by 97.65839pt on input line 407.
 
 <RMD28_files/figure-latex/model-1.pdf, id=58, 469.755pt x 325.215pt>
 File: RMD28_files/figure-latex/model-1.pdf Graphic file (type pdf)
 <use RMD28_files/figure-latex/model-1.pdf>
 Package pdftex.def Info: RMD28_files/figure-latex/model-1.pdf  used on input li
-ne 399.
+ne 416.
 (pdftex.def)             Requested size: 352.31538pt x 243.91064pt.
 [3pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.401 
+l.418 
        <./RMD28_files/figure-latex/dplot-1.pdf>] [4pdfTeX warning (ext4): desti
 nation with the same identifier (name{table.1}) has been already used, duplicat
 e ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.401 
+l.418 
       pdfTeX warning (ext4): destination with the same identifier (name{table.2
 }) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.401 
+l.418 
       ] [5pdfTeX warning (ext4): destination with the same identifier (name{tab
 le.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.401 
+l.418 
       ] [6pdfTeX warning (ext4): destination with the same identifier (name{fig
 ure.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.408 \end{document}
+l.427 \end{document}
                      <./RMD28_files/figure-latex/model-1.pdf>] (./RMD28.aux)
 
 LaTeX Warning: There were multiply-defined labels.
@@ -763,10 +763,10 @@ m/lmr10.pfb><c:/Users/Derek/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/publ
 ic/lm/lmr12.pfb><c:/Users/Derek/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/
 public/lm/lmr17.pfb><c:/Users/Derek/AppData/Roaming/TinyTeX/texmf-dist/fonts/ty
 pe1/public/lm/lmtt10.pfb>
-Output written on RMD28.pdf (6 pages, 179578 bytes).
+Output written on RMD28.pdf (6 pages, 180886 bytes).
 PDF statistics:
- 126 PDF objects out of 1000 (max. 8388607)
- 99 compressed objects within 1 object stream
+ 127 PDF objects out of 1000 (max. 8388607)
+ 100 compressed objects within 1 object stream
  24 named destinations out of 1000 (max. 500000)
  61 words of extra memory for PDF output out of 10000 (max. 10000000)
 
