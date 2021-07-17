@@ -3,7 +3,7 @@ library(tidymodels)
 library(GGally)
 library(car)
 library(sjPlot)
-
+library(janitor)
 
 # setwd("~/Desktop/Data Analysis Skills/Group work 2/Datasets-20210710")
 Data <- read.csv("dataset28.csv")
@@ -44,8 +44,11 @@ ggplot(data = Data) +
   geom_boxplot(aes(points, country))
 
 # cross-table of country and score
-count <- table(Data$country, Data$score)
-prop.table(count, margin = 1)
+Data %>%
+  tabyl(country,score)%>%
+  adorn_percentages()%>%
+  adorn_pct_formatting()%>%
+  adorn_ns()
 
 # chi square test
 chisq.test(Data$country, Data$score)
@@ -54,15 +57,65 @@ chisq.test(Data$country, Data$score)
 ggplot(data = Data) +
   geom_density(aes(price, group = score, fill = score))
 
+Data %>%
+  tabyl(variety,score)%>%
+  adorn_percentages()%>%
+  adorn_pct_formatting()%>%
+  adorn_ns()
 
+chisq.test(Data$winery, Data$score)
+
+chisq.test(Data$variety, Data$score)
+
+t <- as.matrix(table(Data$variety))
+
+summary(t)
+
+Data$variety <- as.vector(Data$variety)
+Data$variety[which(Data$variety %in% row.names(t)[t<11])] = "other"
+Data$variety <- as.factor(Data$variety)
+
+chisq.test(Data$variety, Data$score)
+
+Data %>%
+  tabyl(variety,score)%>%
+  adorn_percentages()%>%
+  adorn_pct_formatting()%>%
+  adorn_ns()
 #### glm model ####
-fit <- glm(score ~ price + country,
+fit1 <- glm(score ~ price + variety,
   data = Data,
   family = binomial(link = "logit"))
-fit %>% summary()
+fit1 %>% summary()
 
-# NewZealand and Italy are significantly different from others
 
+fit2 <- glm(score ~ price + country,
+            data = Data,
+            family = binomial(link = "logit"))
+fit2 %>% summary()
+
+#### NewZealand and Italy are significantly different from others ####
+
+Data <- Data %>% mutate(
+  country = case_when(
+    country == "New Zealand" ~ "New Zealand",
+    country == "Italy" ~ "Italy",
+    !country %in% c("New Zealand", "Italy") ~ "others"
+  )
+)
+
+fit3 <- glm(score ~ price + country,
+           data = Data,
+           family = binomial(link = "logit"))
+
+summary(fit3)
+
+# AIC of fit3 is smaller than fit2
+glance(fit2)
+glance(fit3)
+
+#### select new zealand and italy to check province ####
+#province is not significant
 NewZealand <- Data %>% filter(country == "New Zealand")
 
 glm(score ~ price + province + variety,
@@ -77,11 +130,22 @@ glm(score ~ price + province + variety,
   family = binomial(link = "logit")) %>%
   summary()
 
-# model with only price
-fit1 <- glm(score ~ price,
-  data = Data,
-  family = binomial(link = "logit"))
+fit4 <- glm(score ~ price,
+            data = Data,
+            family = binomial(link = "logit"))
+summary(fit4)
+glance(fit4)
 
-plot_model(fit1,
+plot_model(fit3, show.values = TRUE,
+           title = "Odds (Country)", show.p = TRUE)
+
+plot_model(fit4,
   type = "pred", title = "",
   axis.title = c("price", "Probability of pass"))
+
+#### No overdispersion
+deviance(fit3)/df.residual(fit3) 
+
+pchisq(summary(fit)$dispersion * fit$df.residual, 
+       fit$df.residual, lower = F) 
+
