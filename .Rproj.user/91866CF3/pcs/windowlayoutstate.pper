@@ -1,12 +1,20 @@
 {
     "left": {
+<<<<<<< Updated upstream
         "splitterpos": 236,
+=======
+        "splitterpos": 293,
+>>>>>>> Stashed changes
         "topwindowstate": "NORMAL",
         "panelheight": 848,
         "windowheight": 886
     },
     "right": {
+<<<<<<< Updated upstream
         "splitterpos": 508,
+=======
+        "splitterpos": 538,
+>>>>>>> Stashed changes
         "topwindowstate": "NORMAL",
         "panelheight": 848,
         "windowheight": 886
