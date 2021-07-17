@@ -37,10 +37,11 @@ Data <- read.csv("dataset28.csv")
 ```
 
 
-# Introduction {#sec : Intro}
-The whole data set has 7 factors and 2000 observations.
+# Introduction {#sec:Intro}
 
-# Exploratory Data Analysis { #sec : EDA}
+
+# Data Structure and Visualisation {#sec:DSV}
+The whole data set has 7 factors and 2000 observations.
 ```{r echo=FALSE, eval=TRUE, message=FALSE,warning=FALSE}
 
 Data <- Data[, -1]
@@ -67,7 +68,6 @@ Data[, c(2, 3)] %>%
   facet_wrap(~variable, scales = "free")
 
 ```
-
 
 ```{r boxplot, eval=TRUE, echo=FALSE, fig.align="center", fig.cap="\\label{fig:box} Boxplot of points by country", message=FALSE, warning=FALSE, out.width='75%', fig.pos='H'}
 
@@ -110,7 +110,7 @@ ggplot(data = Data) +
 
 
 
-# Formal Data Analysis {#sec:FDA}
+# Methodology {#sec:FDA}
 
 ```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
 #### glm model ####
@@ -120,7 +120,7 @@ fit <- glm(score ~ price + country,
 s <- fit %>% summary()
 kable(s$coefficients, caption = "Summary Statistics of GLM Model")
 ```
-NewZealand and Italy are significantly different from others
+New Zealand and Italy are significantly different from others
 
 
 GLM MOdel for New Zealand
@@ -169,4 +169,7 @@ plot_model(fit1,
   axis.title = c("price", "Probability of pass"))
 ```
 
-# Coclusion and Future Work
+# Coclusion and Future Work {#sec:CFW}
+
+
+# Reference {#sec:Ref}
