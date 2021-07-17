@@ -136,8 +136,6 @@ nzland <- nz %>%
   summary()
 
 kable(round(nzland$coefficients,4), caption = "GLM Model for New Zealand")
-  
-  
 
 ```
 
@@ -170,7 +168,6 @@ fit1 <- glm(score ~ price,
 plot_model(fit1,
   type = "pred", title = "",
   axis.title = c("price", "Probability of pass"))
-  
-
-
 ```
+
+# Coclusion and Future Work
