@@ -18,7 +18,7 @@ options(digits = 4)
 ```
 
 
-```{r libraries}
+```{r libraries, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(ggplot2)
 library(tidymodels)
@@ -33,15 +33,18 @@ library(janitor)
 
 
 ``` {r echo = FALSE, eval = TRUE, warning = FALSE, message = FALSE}
-setwd("C:\\Users\\Aishwin Tikku\\Documents\\GitHub\\DAS2021-Group-28")
 Data <- read.csv("dataset28.csv")
 ```
 
 
-# Introduction {#sec : Intro}
-The whole data set has 7 factors and 2000 observations.
+# Introduction {#sec:Intro}
 
-# Exploratory Data Analysis { #sec : EDA}
+Wine is an alcoholic drink, produced by various kinds of fermented fruits like grapes, apple or blueberry. There are four kinds of wines, involving white wine, red wine, rose wine and sparkling wine. The difference of wines depends on various kinds of factors, including type of grapes, soil status, and province state. We analysis a data set from the Wine Enthusiast, a famous American wine provider, in this project. Thousands of wines were rated in this data set, where wine with points lower than 80 were filtered.
+
+The aim of our project is discovering properties leading the occurrence of high rated wine, the wine with points larger than 90. The first session visualize the structure, properties, as well as correlations inside the dataset. We, next in order, analysis factors of wine, leading high ranking, thorough the best generalized linear model. Finally, we conclude the entire analysis, as well as discussing what we can do in the future.
+
+# Data Structure and Visualisation {#sec:DSV}
+The whole data set has 7 factors and 2000 observations.
 ```{r echo=FALSE, eval=TRUE, message=FALSE,warning=FALSE}
 
 Data <- Data[, -1]
@@ -68,7 +71,6 @@ Data[, c(2, 3)] %>%
   facet_wrap(~variable, scales = "free")
 
 ```
-
 
 ```{r boxplot, eval=TRUE, echo=FALSE, fig.align="center", fig.cap="\\label{fig:box} Boxplot of points by country", message=FALSE, warning=FALSE, out.width='75%', fig.pos='H'}
 
@@ -111,7 +113,7 @@ ggplot(data = Data) +
 
 
 
-# Formal Data Analysis {#sec:FDA}
+# Methodology {#sec:FDA}
 
 ```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
 #### glm model ####
@@ -121,7 +123,7 @@ fit <- glm(score ~ price + country,
 s <- fit %>% summary()
 kable(s$coefficients, caption = "Summary Statistics of GLM Model")
 ```
-NewZealand and Italy are significantly different from others
+New Zealand and Italy are significantly different from others
 
 
 GLM MOdel for New Zealand
@@ -136,8 +138,6 @@ nzland <- nz %>%
   summary()
 
 kable(round(nzland$coefficients,4), caption = "GLM Model for New Zealand")
-  
-  
 
 ```
 
@@ -170,7 +170,12 @@ fit1 <- glm(score ~ price,
 plot_model(fit1,
   type = "pred", title = "",
   axis.title = c("price", "Probability of pass"))
-  
-
-
 ```
+
+# Coclusion and Future Work {#sec:CFW}
+
+For discovering factors affecting the quality of wine more accurately, we can combine multiple data sets with details of Wineries. Different model, additionally, will be trained and tested for selecting the best model. The targeted model will be neural network, a self-learning model which can handle large amount of new data. Lastly, we will construct a system, which can help business searching and identifying good model. This application would be useful for assigning price and prevent purchasing unqualified wines.
+
+# Reference {#sec:Ref}
+
+ Christina, https://cellar.asia/wine/what-is-wine/
