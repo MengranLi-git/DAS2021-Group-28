@@ -18,7 +18,7 @@ options(digits = 4)
 ```
 
 
-```{r libraries}
+```{r libraries, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(ggplot2)
 library(tidymodels)
@@ -33,7 +33,6 @@ library(janitor)
 
 
 ``` {r echo = FALSE, eval = TRUE, warning = FALSE, message = FALSE}
-setwd("C:\\Users\\Aishwin Tikku\\Documents\\GitHub\\DAS2021-Group-28")
 Data <- read.csv("dataset28.csv")
 ```
 
