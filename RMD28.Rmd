@@ -151,6 +151,7 @@ fit1 <- glm(score ~ price + variety,
             family = binomial(link = "logit"))
 fit1 %>% summary()
 ```
+Notice that no variety of wine is significant at the 5% significance level.
 
 Notice that no variety of wine is significant at the 5% significance level.
 
@@ -170,6 +171,7 @@ We choose variables with p-values less than 0.1. From the summary table, 'New Ze
 Therefore, we set all countries except 'New Zealand' and 'Italy' as 'others' to make this variable a categorical variable with three levels.
 
 ```{r, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
+
 Data <- Data %>% mutate(
   country = case_when(
     country == "New Zealand" ~ "New Zealand",
@@ -177,7 +179,7 @@ Data <- Data %>% mutate(
     !country %in% c( 'New Zealand', 'Italy') ~ "others"
   )
 )
-```
+
 
 ```{r}
 fit3 <- glm(score ~ price + country,
@@ -197,10 +199,12 @@ Next, We select 'New Zealand' and 'Italy' to check 'province' variable. Filter s
 
 ```{r, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
 New_Zealand <- Data %>% filter(country == "New Zealand")
+
 glm(score ~ price + province,
     data = New_Zealand,
     family = binomial(link = "logit"),
     ) %>%
+
   summary()
 Italy <- Data %>% filter(country == "Italy")
 glm(score ~ price + province,
@@ -237,6 +241,7 @@ plot_model(fit3, show.values = TRUE,
 plot_model(fit3,
            type = "pred", title = "",
            axis.title = c("price", "Probability of pass"))
+
 ```
 
 # Coclusion and Future Work {#sec:CFW}
