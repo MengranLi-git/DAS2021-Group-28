@@ -51,6 +51,7 @@ Data$province <- as.factor(Data$province)
 Data$title <- as.factor(Data$title)
 Data$variety <- as.factor(Data$variety)
 Data$winery <- as.factor(Data$winery)
+Data$price <- as.integer(Data$price)
 
 # Group by points, those greater than 90 are pass, others are fail
 Data <- Data %>% mutate(score = ifelse(points > 90, "Pass", "Fail"))
@@ -111,11 +112,26 @@ Data$variety <- as.factor(Data$variety)
 ```
 
 We will use the generalised linear model to fit a logistic regression model with score as the response, price and variety as the explanatory variable.
+
 ```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
 fit1 <- glm(score ~ price + variety,
             data = Data,
             family = binomial(link = "logit"))
 fit1 %>% summary()
+```
+Notice that only the 'Riesling' in variety is significant at 5% level.
+```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
+Data <- Data %>% mutate(
+  variety = case_when(
+    variety == "Riesling" ~ "Riesling ",
+    !variety %in% c("Riesling ") ~ "others"
+  )
+)
+fit1 <- glm(score ~ price + variety,
+            data = Data,
+            family = binomial(link = "logit"))
+
+summary(fit1)
 ```
 
 Similarly, We can use the same method to eliminate interference from too many categories. In order to find this standard, we fit a logistic regression model and check its summary table.
@@ -127,40 +143,44 @@ fit2 <- glm(score ~ price + country,
 fit2 %>% summary()
 ```
 
-We choose variables with p-values less than 0.05. From the summary table, only 'New Zealand' has a significant influence on the score.
+We choose variables with p-values less than 0.1. From the summary table, only 'Israel' in country and price have a significant influence on the score.
 
-So we set all countries except 'New Zealand' as ‘others’ to exclude their influence.
+So we set all countries except 'Israel' as ‘others’ to exclude their influence.
 ```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
 Data <- Data %>% mutate(
   country = case_when(
-    country == "New Zealand" ~ "New Zealand",
-    !country %in% c("New Zealand") ~ "others"
+    country == "Israel" ~ "Israel",
+    !country %in% c("Israel") ~ "others"
   )
 )
-```
 
-And fit a logistic regression model with score as the response, price and country as the explanatory variable.
-```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
-fit3 <- glm(score ~ price + country,
+fit2 <- glm(score ~ price + country,
             data = Data,
             family = binomial(link = "logit"))
 
-summary(fit3)
+summary(fit2)
 ```
 
-The AIC value of model3 is smaller than model2. Therefore, we use model 3 for more in-depth research.
-
-Next, We select 'New Zealand' to check 'province' variable. Filter samples whose country is 'New Zealand' and fit a logistic regression model with score as response, price, province and variety as explanatory vaiables.
+Next, We select 'Israel' to check 'province' variable. Filter samples whose country is 'Israel' and fit a logistic regression model with score as response, price, province and variety as explanatory vaiables.
 ```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
-NewZealand <- Data %>% filter(country == "New Zealand")
+Israel <- Data %>% filter(country == "Israel")
 
-glm(score ~ price + province + variety,
-    data = NewZealand,
+glm(score ~ price + province,
+    data = Israel,
     family = binomial(link = "logit")) %>%
   summary()
 ```
 
 From the summary table of the above model, it can be seen that the province has no significant effect on the score.
+
+```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
+fit3 <- glm(score ~ price + variety + country,
+            data = Data,
+            family = binomial(link = "logit"))
+
+summary(fit3)
+```
+After comparing the AIC values of the three models, model 3 was finally used for more in-depth research. 
 
 To avoid the overdispersion, we need to compare the value of deviance divided by residual deviance with 1.
 ```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
@@ -168,46 +188,26 @@ deviance(fit3)/df.residual(fit3)
 ```
 The result is less than 1, there is no overdispersion.
 
-#####################33
-Fit a logistic regression model 4 and 5 to have a further understanding of the relationship between score and price, score and country.
+
+Notice that the coefficients of price and variety are positive, which means that expensive wine are more likely to pass(points is greater than 90), while the coefficient of countryIsrael is negative.
+
+And the all coefficients are significant (p-value of 2e-16, 0.00069 and 0.04711), so we qualify the effect of them.
 
 ```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
-fit4 <- glm(score ~ country,
-            data = Data,
-            family = binomial(link = "logit"))
-```
-
-```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
-plot_model(fit4, show.values = TRUE,
-           title = "Odds (Country)", show.p = TRUE)
+plot_model(fit3, show.values = TRUE,
+           title = "Odds (price)", show.p = TRUE)
 ```
 
 ```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
 plot_model(fit4,
            type = "pred", title = "",
-           axis.title = c("Country", "Probability of pass"))
-```
-
-
-
-```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
-fit4 <- glm(score ~ price,
-            data = Data,
-            family = binomial(link = "logit"))
-```
-
-```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
-plot_model(fit5, show.values = TRUE,
-           title = "Odds (price)", show.p = TRUE)
-```
-
-The probability of pass, id the wine has an unit increase in price. 
-```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
-plot_model(fit5,
-           type = "pred", title = "",
            axis.title = c("price", "Probability of pass"))
 ```
 
+The above figure shows that every unit increase in price, the expensive wines' odds of passing are 1.06 times those of the cheap wine. Similarly, for Riesling and non-Riesling,the Riesling's odds of passing are 4.02 times non-Riesling wine. And for other places produced wine's odds of getting more than 90 points is 0.14 times that of Israel wine.
+
+# Reseult
+After establishing the generalised linear model and comparing them, we found that the price is the most significant factor on wine scores. In addition, after analysis, we found that Riesling wine or Israel wine are easier to reach 90 points than other varieties of wine.
 
 # Coclusion and Future Work {#sec:CFW}
 
@@ -216,5 +216,6 @@ For discovering factors affecting the quality of wine more accurately, we can co
 # Reference {#sec:Ref}
 
  Christina, https://cellar.asia/wine/what-is-wine/`
+
 
 
