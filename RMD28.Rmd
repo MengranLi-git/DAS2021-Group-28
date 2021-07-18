@@ -67,7 +67,7 @@ Data$score <- as.factor(Data$score)
 
 ## Category variables
 
-For the category varibales, we should check the percentages of pass and fail.
+For the category varibales, we should check the percentages of pass and fail. According to the data, using the tabyl function to display the proportion of score variables in different countries.
 
 ```{r echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
  Data %>%
@@ -77,7 +77,7 @@ For the category varibales, we should check the percentages of pass and fail.
   adorn_ns()
 ```
 
-We notice that there are several countries who have only few observations.
+We notice that there are several countries who have only few observations，for example, Croatia,Georgia,Turkey,Ukraine and others' score variable are 100%  "Fail", and other data of some countries are selected partly.
 
 Chi-squared test is applied to exmain the dependence of country and score.
 
