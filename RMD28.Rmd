@@ -61,7 +61,6 @@ To explore the factors points of wines over 90, the points varaible is transform
 # Group by points, those greater than 90 are pass, others are fail
 Data <- Data %>% mutate(score = ifelse(points > 90, "Pass", "Fail"))
 Data$score <- as.factor(Data$score)
-
 ```
 
 
@@ -133,8 +132,6 @@ We conduct a generalized linear model to figure out variables have an influence 
 $$g(\mu)=\sum\beta_ix_i$$
 Where $\mu$ is the mean of $Y$. $Y$ is the response variable. $x_i, i=0,\dots,p$ are the explanatory variables. $g$ if the link function. Our response variable is binary, thus the link function takes the form as $log(\frac{\mu}{1-\mu})$. This model is so-called logistic regression model.
 
-
-
 ## Framework
 
 We aim to develop a reasonable model which contains rare variables. Price is a continuous variable and entry the model directly. We test the variety variable first to examine the significance. Then add the country variable and point out the countries who have better wine. We subset the selected countries and explore the influence of province. After checking the overdispersion, we obtain the best model to explain and predict if the point of a wine is greater than 90, which we call Pass here.
@@ -153,8 +150,6 @@ fit1 %>% summary()
 ```
 Notice that no variety of wine is significant at the 5% significance level.
 
-Notice that no variety of wine is significant at the 5% significance level.
-
 ## Country and province
 
 Similarly, We can use the same method to eliminate interference from too many categories. In order to find this standard, we fit a logistic regression model and check its summary table.
@@ -171,7 +166,6 @@ We choose variables with p-values less than 0.1. From the summary table, 'New Ze
 Therefore, we set all countries except 'New Zealand' and 'Italy' as 'others' to make this variable a categorical variable with three levels.
 
 ```{r, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
-
 Data <- Data %>% mutate(
   country = case_when(
     country == "New Zealand" ~ "New Zealand",
@@ -179,7 +173,7 @@ Data <- Data %>% mutate(
     !country %in% c( 'New Zealand', 'Italy') ~ "others"
   )
 )
-
+```
 
 ```{r}
 fit3 <- glm(score ~ price + country,
@@ -199,12 +193,10 @@ Next, We select 'New Zealand' and 'Italy' to check 'province' variable. Filter s
 
 ```{r, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
 New_Zealand <- Data %>% filter(country == "New Zealand")
-
 glm(score ~ price + province,
     data = New_Zealand,
     family = binomial(link = "logit"),
     ) %>%
-
   summary()
 Italy <- Data %>% filter(country == "Italy")
 glm(score ~ price + province,
@@ -228,9 +220,7 @@ The result is less than 1, there is no overdispersion.
 
 ## Odds and prediction
 
-Notice that the coefficients of price, countryNew Zealand, other countries are positive, which means that expensive wine are more likely to pass(points is greater than 90). And the all coefficients are significant (p-value of *`r round(tidy(fit3)[2,2],4)`*, *`r round(tidy(fit3)[3,2],4)`* and *`r round(tidy(fit3)[4,2],4)`*), so we qualify the effect of them.
-
-And the all coefficients are significant (p-value of *`r tidy(fit3)[2,5]`*, *`r tidy(fit3)[3,5]`* and *`r tidy(fit3)[4,5]`*), so we qualify the effect of them.
+Notice that the coefficients of price, countryNew Zealand, other countries are positive, which means that expensive wine are more likely to pass(points is greater than 90).And the all coefficients are significant (p-value of *`r tidy(fit3)[2,5]`*, *`r tidy(fit3)[3,5]`* and *`r tidy(fit3)[4,5]`*), so we qualify the effect of them.
 
 ```{r, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
 plot_model(fit3, show.values = TRUE,
@@ -241,8 +231,11 @@ plot_model(fit3, show.values = TRUE,
 plot_model(fit3,
            type = "pred", title = "",
            axis.title = c("price", "Probability of pass"))
-
 ```
+
+We interpret the odds ratios as follows: New Zealand produced wine’s odds of passing are 8.54 times those of Italy produced wine, the other countries produced wine's odds of passing are 2.79 times those of Italy produced wine. And for every unit increase in price, the expensive wine's odds of passing are 1.06 times those of the cheaper one.
+
+In the probability figure, We can have a more intuitive awareness of the above tendency. For example, Wine with a price of more than 80 pounds has a high probability of getting a score of 90 or more. And wine from Italy only has a 5% chance of getting more than 90 points, while New Zealand produced wine has a more than 35% chance of passing.
 
 # Coclusion and Future Work {#sec:CFW}
 
