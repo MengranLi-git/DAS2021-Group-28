@@ -27,9 +27,9 @@ library(janitor)
 
 # Introduction {#sec:Intro}
 
-Wine is an alcoholic drink, produced by various kinds of fermented fruits like grapes, apple or blueberry. There are four kinds of wines, involving white wine, red wine, rose wine and sparkling wine. The difference of wines depends on various kinds of factors, including type of grapes, soil status, and province state. We analysis a data set from the Wine Enthusiast, a famous American wine provider, in this project. Thousands of wines were rated in this data set, where wine with points lower than 80 were filtered.
+Wine is an alcoholic drink, produced by various kinds of fermented fruits like grapes, apple or blueberry. There are four kinds of wines, involving white wine, red wine, rose wine and sparkling wine. The difference of wines depends on various kinds of factors, including type of grapes, soil status, and province state. We analysis a data set from the Wine Enthusiast, a famous American wine provider, in this project. Thousands of wines were rated in this data set, where wine with points lower than 80 were filtered. For identifying good wine easier, we discover elements of high-ranked wine. 
 
-The aim of our project is discovering properties leading the occurrence of high rated wine, the wine with points larger than 90. The first session visualize the structure, properties, as well as correlations inside the dataset. We, next in order, analysis factors of wine, leading high ranking, thorough the best generalized linear model. Due to the excessive classification of nations, provinces,varieties and wineries, we need to reduce the dimensionality of the data set and build models separately for discussion. Finally, we conclude the entire analysis, as well as discussing what we can do in the future.
+The aim of our project is discovering properties leading the occurrence of high rated wine, the wine with points larger than 90. The first session visualize the structure, properties, as well as correlations inside the data set. We, next in order, analysis factors of wine, leading high ranking, thorough the best generalized linear model. Due to the excessive classification of nations, provinces,varieties and wineries, we need to reduce the dimension number of the data set and build models separately for discussion. Finally, we conclude the entire analysis, as well as discussing what can be done in the future.
 
 # Variables of study and data
 
@@ -239,10 +239,31 @@ In the probability figure, We can have a more intuitive awareness of the above t
 
 # Coclusion and Future Work {#sec:CFW}
 
-After establishing the generalised linear model and comparing them, we found that the price is the most significant factor on wine scores. In addition, after analysis, we found that Riesling wine or Israel wine are easier to reach 90 points than other varieties of wine.
+Discussing reasons and background information, we detected the properties related to high-rated wine. Checking the data set, we discovered that the correlation between variety and score is obvious. There is, also, potential relation between price of wine and score. Exploring the structure and hidden relation inside the data, we applied generalized linear models for data analysis. After establishing several generalised linear models and having comparisons, we found that the price is the most significant factor on wine scores. We, additionally, found that Riesling wine or Israel wine are easier to reach 90 points than other varieties of wine after completing the analysis.
 
-For discovering factors affecting the quality of wine more accurately, we can combine multiple data sets with details of Wineries. Different model, additionally, will be trained and tested for selecting the best model. The targeted model will be neural network, a self-learning model which can handle large amount of new data. Lastly, we will construct a system, which can help business searching and identifying good model. This application would be useful for assigning price and prevent purchasing unqualified wines.
+For discovering factors affecting the quality of wine more accurately, we can combine multiple data sets with details of Wineries. Different model, additionally, will be trained and tested for selecting the best model. The targeted model will be neural network, a self-learning model which can handle large amount of new data. Lastly, we will construct a system, which can help business searching and identifying good model through a picture. This application would be useful for assigning price and prevent purchasing unqualified wines.
+
 
 # Reference {#sec:Ref}
 
-Christina, <https://cellar.asia/wine/what-is-wine/>\`
+Barret Schloerke, Di Cook, Joseph Larmarange, Francois Briatte, Moritz Marbach, Edwin Thoen, Amos Elberg and Jason Crowley, 2021, GGally: Extension to 'ggplot2'. R package version 2.1.2., Ref: https://CRAN.R-project.org/package=GGally
+
+Christina, 2019, What is Wine?, Ref: <https://cellar.asia/wine/what-is-wine/>\`
+
+Elin Waring, Michael Quinn, Amelia McNamara, Eduardo Arino de la Rubia, Hao Zhu and Shannon Ellis, 2021, skimr: Compact and Flexible Summaries of Data, R package version 2.1.3, Ref: https://CRAN.R-project.org/package=skimr
+
+
+H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
+
+Hao Zhu, 2021, kableExtra: Construct Complex Table with 'kable' and Pipe Syntax. R package version 1.3.4, Ref: https://CRAN.R-project.org/package=kableExtra
+
+John Fox and Sanford Weisberg, 2019, An {R} Companion to Applied Regression, Third Edition, Thousand Oaks CA: Sage. Ref: https://socialsciences.mcmaster.ca/jfox/Books/Companion/
+
+Kuhn et al., 2020, Tidymodels: a collection of packages for modeling and machine learning using tidyverse principles., Ref: https://www.tidymodels.org
+
+Lüdecke D, 2021, _sjPlot: Data Visualization for Statistics in Social Science_, R package
+version 2.8.8, <Ref: https://CRAN.R-project.org/package=sjPlot>.
+
+Sam Firke, 2021, janitor: Simple Tools for Examining and Cleaning Dirty Data. R package version 2.1.0, Ref: https://CRAN.R-project.org/package=janitor
+
+Wickham et al., 2. Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, Ref: https://doi.org/10.21105/joss.01686
