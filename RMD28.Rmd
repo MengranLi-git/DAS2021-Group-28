@@ -31,7 +31,7 @@ Wine is an alcoholic drink, produced by various kinds of fermented fruits like g
 
 The aim of our project is discovering properties leading the occurrence of high rated wine, the wine with points larger than 90. The first session visualize the structure, properties, as well as correlations inside the data set. We, next in order, analysis factors of wine, leading high ranking, thorough the best generalized linear model. Due to the excessive classification of nations, provinces,varieties and wineries, we need to reduce the dimension number of the data set and build models separately for discussion. Finally, we conclude the entire analysis, as well as discussing what can be done in the future.
 
-# Variables of study and data
+# Exploratory Data Analysis {#sec:EDA}
 
 ## General information
 
@@ -123,7 +123,7 @@ ggplot(data = Data) +
   geom_density(aes(price, group = score, fill = score))
 ```
 
-# Methodology {#sec:FDA}
+# Formal Data Analysis {#sec:FDA}
 
 We conduct a generalized linear model to figure out variables have an influence on whether the point of wine can lie above 90. Our main challenge is that the category variables have too many levels which makes situation tricky.
 
@@ -237,7 +237,7 @@ We interpret the odds ratios as follows: New Zealand produced wine’s odds of p
 
 In the probability figure, We can have a more intuitive awareness of the above tendency. For example, Wine with a price of more than 80 pounds has a high probability of getting a score of 90 or more. And wine from Italy only has a 5% chance of getting more than 90 points, while New Zealand produced wine has a more than 35% chance of passing.
 
-# Coclusion and Future Work {#sec:CFW}
+# Conclusions {#sec:Conc}
 
 Discussing reasons and background information, we detected the properties related to high-rated wine. Checking the data set, we discovered that the correlation between variety and score is obvious. There is, also, potential relation between price of wine and score. Exploring the structure and hidden relation inside the data, we applied generalized linear models for data analysis. After establishing several generalised linear models and having comparisons, we found that the price is the most significant factor on wine scores. We, additionally, found that Riesling wine or Israel wine are easier to reach 90 points than other varieties of wine after completing the analysis.
 
