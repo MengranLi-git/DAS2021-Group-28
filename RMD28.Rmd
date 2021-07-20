@@ -19,9 +19,9 @@ options(digits = 4)
 
 # Introduction {#sec:Intro}
 
-Wine is an alcoholic drink, produced by various kinds of fermented fruits like grapes, apple or blueberry. There are four kinds of wines, involving white wine, red wine, rose wine and sparkling wine. The difference of wines depends on various kinds of factors, including type of grapes, soil status, and province state. We analysis a data set from the Wine Enthusiast, a famous American wine provider, in this project. Thousands of wines were rated in this data set, where wine with points lower than 80 were filtered. For identifying good wine easier, we discover elements of high-ranked wine.
+Wine is an alcoholic drink, produced by various fermented fruits like grapes, apple or blueberry. There are four kinds of wines, involving white wine, red wine, rose wine and sparkling wine. The difference of wines depends on different factors, including type of grapes, soil status, and province state. We analysis a data set from the Wine Enthusiast, a famous American wine provider, in this project. Thousands of wines were rated in this data set, where wine with points lower than 80 were filtered. For identifying good wine easier, we exploring elements of high-ranked wine.
 
-The aim of our project is discovering properties leading the occurrence of high rated wine, the wine with points larger than 90. The first session visualize the structure, properties, as well as correlations inside the data set. We, next in order, analysis factors of wine, leading high ranking, thorough the best generalized linear model. Due to the excessive classification of nations, provinces,varieties and wineries, we need to reduce the dimension number of the data set and build models separately for discussion. Finally, we conclude the entire analysis, as well as discussing what can be done in the future.
+The aim of our project is discovering properties leading the occurrence of high rated wine, the wine with points larger than 90. The first session visualize the structure, properties, as well as correlations inside the data set. We, next in order, analyse factors of wine, leading high ranking, thorough the best generalized linear model. Due to the excessive classification of nations, provinces,varieties and wineries, we need to reduce the dimension number of the data set and build models separately for discussion. Finally, we conclude the entire analysis, as well as discussing what can be done in the future.
 
 ```{r libraries}
 # library packages
@@ -87,7 +87,7 @@ For the category variables, we should check the percentages of pass and fail. Ac
   kable_styling(latex_options = "HOLD_position")
 ```
 
-We notice that there are several countries who have only few observations，for example, Croatia,Georgia,Turkey,Ukraine and others' score variable are 100% "Fail", and other data of some countries are selected partly.
+We notice that there are several countries who have only few observations，For instance, Croatia,Georgia,Turkey,Ukraine and others' score variable are 100% "Fail", and other data of some countries are selected partly.
 
 Chi-squared test is applied to examine the dependence of country and score.
 
@@ -141,7 +141,7 @@ ggplot(data = Data) +
 
 # Methodology {#sec:FDA}
 
-We conduct a generalized linear model to figure out variables have an influence on whether the point of wine can lie above 90. Our main challenge is that the category variables have too many levels which makes situation tricky.
+We conduct a generalized linear model to figure out variables having influence on whether the point of wine can lie above 90. Our main challenge is that the category variables have too many levels which makes situation tricky.
 
 ## Generalized linear model
 
