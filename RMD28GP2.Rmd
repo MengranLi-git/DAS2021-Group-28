@@ -7,6 +7,8 @@ output:
     latex_engine: xelatex
     number_sections: no
 fig_caption: yes
+keep_tex: yes
+header-includes: \usepackage{float}
 ---
 
 ```{r setup, include=FALSE}
@@ -51,11 +53,11 @@ my_skim <- skim_with(base = sfl(n = length), numeric = sfl(p0 = NULL, p100 = NUL
 print(my_skim(Data))
 ```
 
-The variables of points and price are continuous while country, province, title, variety and winery are category varibales.
+The variables of points and price are continuous while country, province, title, variety and winery are category variables.
 
 The levels of title and winery are beyond one thousand, which is meaningless to predict, thus we ignore the two variables.
 
-To explore the factors points of wines over 90, the points varaible is transformed as a dummy variable, where Pass means the point is greater than 90 while Fail is not.
+To explore the factors points of wines over 90, the points variable is transformed as a dummy variable, where Pass means the point is greater than 90 while Fail is not.
 
 ```{r}
 # Group by points, those greater than 90 are pass, others are fail
@@ -74,12 +76,13 @@ For the category variables, we should check the percentages of pass and fail. Ac
   adorn_percentages()%>%
   adorn_pct_formatting()%>%
   adorn_ns()%>%
-  kbl(caption = 'Pass\\% and Fail\\% for each Country', booktabs = T)
+  kbl(caption = 'Pass\\% and Fail\\% for each Country', booktabs = T)%>%
+  kable_styling(latex_options = "HOLD_position")
 ```
 
 We notice that there are several countries who have only few observations，for example, Croatia,Georgia,Turkey,Ukraine and others' score variable are 100%  "Fail", and other data of some countries are selected partly.
 
-Chi-squared test is applied to exmain the dependence of country and score.
+Chi-squared test is applied to examine the dependence of country and score.
 
 ```{r echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
 # chi square test
@@ -107,7 +110,7 @@ Similarly, generate a cross-table of variety and score, and test the chi-square.
   adorn_pct_formatting()%>%
   adorn_ns()%>%
   knitr::kable(caption = '\\label{tab:varietyscore} Pass\\% and Fail\\% of each Wine Variety')%>%
-  kable_styling(latex_options = "hold_position")
+  kable_styling(latex_options = "HOLD_position")
 ```
 
 ```{r echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
