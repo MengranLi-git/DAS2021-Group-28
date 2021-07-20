@@ -4,21 +4,26 @@ author: 'Group 28: Aishwin Tikku, Mengran Li, Steven Kwok, Shaoquan Li, Shuning 
 
 output:
   pdf_document:
-    latex_engine: pdflatex
+    latex_engine: xelatex
     number_sections: no
-  html_document:
-    df_print: paged
 fig_caption: yes
+keep_tex: yes
+header-includes: \usepackage{float}
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, eval = TRUE, warning = FALSE, message = FALSE, comment = NA, fig.pos = 'H')
-
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, warning = FALSE, message = FALSE, comment = NA, fig.pos = 'H')
 options(digits = 4)
 ```
 
+# Introduction {#sec:Intro}
 
-```{r libraries, message=FALSE, warning=FALSE}
+Wine is an alcoholic drink, produced by various kinds of fermented fruits like grapes, apple or blueberry. There are four kinds of wines, involving white wine, red wine, rose wine and sparkling wine. The difference of wines depends on various kinds of factors, including type of grapes, soil status, and province state. We analysis a data set from the Wine Enthusiast, a famous American wine provider, in this project. Thousands of wines were rated in this data set, where wine with points lower than 80 were filtered.
+
+The aim of our project is discovering properties leading the occurrence of high rated wine, the wine with points larger than 90. The first session visualize the structure, properties, as well as correlations inside the dataset. We, next in order, analysis factors of wine, leading high ranking, thorough the best generalized linear model. Due to the excessive classification of nations, provinces,varieties and wineries, we need to reduce the dimensionality of the data set and build models separately for discussion. Finally, we conclude the entire analysis, as well as discussing what we can do in the future.
+
+```{r libraries}
+# library packages
 library(tidyverse)
 library(ggplot2)
 library(tidymodels)
@@ -27,162 +32,249 @@ library(car)
 library(sjPlot)
 library(skimr)
 library(kableExtra)
-library(knitr)
 library(janitor)
 ```
 
+# Variables of study and data
 
-``` {r echo = FALSE, eval = TRUE, warning = FALSE, message = FALSE}
+## General information
+
+The whole data set has 7 variables and 2000 observations.
+
+```{r}
+# read data
 Data <- read.csv("dataset28.csv")
-
-```
-
-
-# Introduction {#sec:Intro}
-
-Wine is an alcoholic drink, produced by various kinds of fermented fruits like grapes, apple or blueberry. There are four kinds of wines, involving white wine, red wine, rose wine and sparkling wine. The difference of wines depends on various kinds of factors, including type of grapes, soil status, and province state. We analysis a data set from the Wine Enthusiast, a famous American wine provider, in this project. Thousands of wines were rated in this data set, where wine with points lower than 80 were filtered.
-
-The aim of our project is discovering properties leading the occurrence of high rated wine, the wine with points larger than 90. The first session visualize the structure, properties, as well as correlations inside the dataset. We, next in order, analysis factors of wine, leading high ranking, thorough the best generalized linear model. Finally, we conclude the entire analysis, as well as discussing what we can do in the future.
-
-# Data Structure and Visualisation {#sec:DSV}
-The whole data set has 2000 observations and 7 observations namely country, points,price, province, title, variety, winery. The attributes country,province, title, variety, winery have been converted to factors using as.factor function.
-Another variable called score is created using the mutate function that  groups by points variable and marks the score variable as "Pass" if the points are >90 else marks it "Fail".
-```{r echo=FALSE, eval=TRUE, message=FALSE,warning=FALSE}
-
+#remove the index
 Data <- Data[, -1]
+# transform the character as factor
 Data$country <- as.factor(Data$country)
 Data$province <- as.factor(Data$province)
 Data$title <- as.factor(Data$title)
 Data$variety <- as.factor(Data$variety)
 Data$winery <- as.factor(Data$winery)
+Data$price <- as.integer(Data$price)
+# generate general information about dataset
+my_skim <- skim_with(base = sfl(n = length), numeric = sfl(p0 = NULL, p100 = NULL, hist = NULL))
+print(my_skim(Data))
+```
 
+The variables of points and price are continuous while country, province, title, variety and winery are category variables.
+
+The levels of title and winery are beyond one thousand, which is meaningless to predict, thus we ignore the two variables.
+
+To explore the factors points of wines over 90, the points variable is transformed as a dummy variable, where Pass means the point is greater than 90 while Fail is not.
+
+```{r}
 # Group by points, those greater than 90 are pass, others are fail
 Data <- Data %>% mutate(score = ifelse(points > 90, "Pass", "Fail"))
 Data$score <- as.factor(Data$score)
-
-```
-Using the gather function on points and price variables we create new columns called variable and value. Then Histogram is used to graphically summarize the numerical data by showing the number of points that fall within a specified range of values(called bins) and the facet_wrap function makes the individual graphs for both the categories "points" and "price".
-Most of the wines are scored in the range of 85-90 has shown in the graph and the prices  of most of the wines are in the range 10-80 as shown in the graph.
-
-```{r his, fig.width=6, fig.height=4, fig.align='center',echo = FALSE, eval = TRUE, warning = FALSE, message = FALSE, fig.cap="\\label{fig:hist} Histogram of Price and Points"}
-
-
-#### descriptive statistics ####
-Data[, c(2, 3)] %>%
-  gather(key = "variable", value = "value") %>%
-  ggplot() +
-  geom_histogram(aes(x = value), fill = "#80C687", color = "#80C687", alpha = 0.8) +
-  facet_wrap(~variable, scales = "free")
-
 ```
 
-Using the Data, boxplots are created for each country based on the points variable.
-The boxplot shows the distribution of numerical data and skewness from all countries and displays the result in a single graph. It is visible from the graph that there are several unusual observations(outliers) in the data.
+## Category variables
 
-```{r boxplot, eval=TRUE, echo=FALSE, fig.align="center", fig.cap="\\label{fig:box} Boxplot of points by country", message=FALSE, warning=FALSE, out.width='75%', fig.pos='H'}
+For the category variables, we should check the percentages of pass and fail. According to the data, using the tabyl function to display the proportion of score variables in different countries.
 
-ggplot(data = Data) +
-  geom_boxplot(aes(points, country))
-
-```
-
-```{r echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+```{r}
+# cross-table of country and score
  Data %>%
   tabyl(country,score)%>%
   adorn_percentages()%>%
   adorn_pct_formatting()%>%
-  adorn_ns()
-
+  adorn_ns()%>%
+  kbl(caption = 'Pass\\% and Fail\\% for each Country', booktabs = T)%>%
+  kable_styling(latex_options = "HOLD_position")
 ```
 
+We notice that there are several countries who have only few observations，for example, Croatia,Georgia,Turkey,Ukraine and others' score variable are 100%  "Fail", and other data of some countries are selected partly.
 
-```{r echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+Chi-squared test is applied to examine the dependence of country and score.
 
-
+```{r}
 # chi square test
 chisq.test(Data$country, Data$score)
-
 ```
 
+At the level of 0.05, refuse the null hypothesis, which means there is dependence between country and response variable score.
 
+We conduct statistics on the number of samples according to the type of wine. There are so many levels with rare observations. To deduce dimensions, We classify the types with a sample number of less than 10 as 'others'.
 
-```{r dplot, eval=TRUE, echo=FALSE, fig.align="center", fig.cap="\\label{fig:dplot} Density plot by score", message=FALSE, warning=FALSE, out.width='75%', fig.pos='H'}
+```{r}
+# summary of numbers of observations
+t <- as.matrix(table(Data$variety))
+head(t) %>% 
+  kbl(caption = 'Numbers of observations of each Wine Variety (first six Wine Varieties)', booktabs = T)%>%
+  kable_styling(latex_options = "HOLD_position")
+Data$variety <- as.vector(Data$variety)
+Data$variety[which(Data$variety %in% row.names(t)[t<11])] = "other"
+Data$variety <- as.factor(Data$variety)
+```
 
+Similarly, generate a cross-table of variety and score, and test the chi-square.
 
+```{r}
+# cross-table of variety and score
+ Data %>%
+  tabyl(variety,score)%>%
+  adorn_percentages()%>%
+  adorn_pct_formatting()%>%
+  adorn_ns()%>%
+  kbl(caption = 'Pass\\% and Fail\\% of each Wine Variety', booktabs = T)%>%
+  kable_styling(latex_options = "HOLD_position")
+```
+
+```{r}
+# chi square test
+chisq.test(Data$variety, Data$score)
+```
+
+The dependence between variety and score is significant at $\alpha=0.05$.
+
+## Continuous variable
+
+Finally, we compare the distributions of price in different score group. The price in Pass group has a obvious higher mean value than that in Fail group. There is a potential relationship between price and score.
+
+```{r dplot, fig.align="center", fig.cap="\\label{fig:dplot} Density plot by score", out.width='75%', fig.pos='H'}
+# density plot
 ggplot(data = Data) +
   geom_density(aes(price, group = score, fill = score))
-
 ```
-
-
-
-
-
-
 
 # Methodology {#sec:FDA}
 
-```{r glm, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
-#### glm model ####
-fit <- glm(score ~ price + country,
-  data = Data,
-  family = binomial(link = "logit"))
-s <- fit %>% summary()
-kable(s$coefficients, caption = "Summary Statistics of GLM Model")
+We conduct a generalized linear model to figure out variables have an influence on whether the point of wine can lie above 90. Our main challenge is that the category variables have too many levels which makes situation tricky.
+
+## Generalized linear model
+
+$$g(\mu)=\sum\beta_ix_i$$
+Where $\mu$ is the mean of $Y$. $Y$ is the response variable. $x_i, i=0,\dots,p$ are the explanatory variables. $g$ if the link function. Our response variable is binary, thus the link function takes the form as $log(\frac{\mu}{1-\mu})$. This model is so-called logistic regression model.
+
+## Framework
+
+We aim to develop a reasonable model which contains rare variables. Price is a continuous variable and entry the model directly. We test the variety variable first to examine the significance. Then add the country variable and point out the countries who have better wine. We subset the selected countries and explore the influence of province. After checking the overdispersion, we obtain the best model to explain and predict if the point of a wine is greater than 90, which we call Pass here.
+
+# Result
+
+## Price and variety
+
+We will use the generalized linear model to fit a logistic regression model with score as the response, price and variety as the explanatory variable.
+
+```{r}
+# logistic regression with price and variety
+fit1 <- glm(score ~ price + variety,
+            data = Data,
+            family = binomial(link = "logit"))
+fit1 %>% tidy() %>% kbl(caption = " Summary Statistics of GLM 1", booktabs = T)%>%
+  kable_styling(latex_options = "HOLD_position")
 ```
-New Zealand and Italy are significantly different from others
+Notice that no variety of wine is significant at the 5% significance level.
 
+## Country and province
 
-GLM MOdel for New Zealand
-```{r nz, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE, }
+Similarly, We can use the same method to eliminate interference from too many categories. In order to find this standard, we fit a logistic regression model and check its summary table.
 
-NewZealand <- Data %>% filter(country == "New Zealand")
-
-nz <- glm(score ~ price + province + variety,
-  data = NewZealand,
-  family = binomial(link = "logit"))
-nzland <- nz %>% 
-  summary()
-
-kable(round(nzland$coefficients,4), caption = "GLM Model for New Zealand")
-
+```{r}
+# logistic regression with price and country
+fit2 <- glm(score ~ price + country,
+            data = Data,
+            family = binomial(link = "logit"))
+fit2 %>% tidy() %>% kbl(caption = " Summary Statistics of GLM 2", booktabs = T)%>%
+  kable_styling(latex_options = "HOLD_position")
 ```
 
-GLM Model for Italy
-```{r itly, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
+We choose variables with p-values less than 0.1. From the summary table, 'New Zealand' and 'Italy' in country and price have a significant influence on the score.
 
+Therefore, we set all countries except 'New Zealand' and 'Italy' as 'others' to make this variable a categorical variable with three levels.
+
+```{r}
+# transform the country variable
+Data <- Data %>% mutate(
+  country = case_when(
+    country == "New Zealand" ~ "New Zealand",
+    country == "Italy" ~ "Italy",
+    !country %in% c( 'New Zealand', 'Italy') ~ "others"
+  )
+)
+```
+
+```{r}
+# logistic with new country variable
+fit3 <- glm(score ~ price + country,
+            data = Data,
+            family = binomial(link = "logit"))
+fit3 %>% tidy() %>% kbl(caption = " Summary Statistics of GLM 3", booktabs = T)%>%
+  kable_styling(latex_options = "HOLD_position")
+```
+
+```{r}
+# AIC
+AIC(fit2)
+AIC(fit3)
+```
+
+Compared with the model with all countries, the model with merged counties has a smaller AIC and all variables are significant.
+
+Next, We select 'New Zealand' and 'Italy' to check 'province' variable. Filter samples whose country is either 'New Zealand' or 'Italy' and fit a logistic regression model with score as response, price and province as explanatory variables.
+
+```{r}
+# divide dataset by country
+New_Zealand <- Data %>% filter(country == "New Zealand")
+# logistic of New Zealand
+glm(score ~ price + province,
+    data = New_Zealand,
+    family = binomial(link = "logit"),
+    ) %>%
+  tidy() %>% kbl(caption = " Summary Statistics of GLM with Country = New Zealand", booktabs = T)%>%
+  kable_styling(latex_options = "HOLD_position")
+# logistic of Italy
 Italy <- Data %>% filter(country == "Italy")
-
-it <- glm(score ~ price + province + variety,
-  data = Italy,
-  family = binomial(link = "logit"))
-itly <- it %>% 
-  summary()
-
-kable(round(itly$coefficients,4), caption = "GLM Model for Italy")
-  
+glm(score ~ price + province,
+    data = Italy,
+    family = binomial(link = "logit"),
+    ) %>%
+  tidy() %>% kbl(caption = " Summary Statistics of GLM  wiht country = Italy", booktabs = T)%>%
+  kable_styling(latex_options = "HOLD_position")
 ```
 
+From the summary table of the above model, it can be seen that the province has no significant effect on the score.
 
+## Overdispersion
 
-GLM Model & Predicted Values Plot based on only Price
-```{r model, echo=FALSE,eval=TRUE, message=FALSE, warning=FALSE, fig.cap="\\label{fig:pred} Pass Probability Plot by Price", message=FALSE, warning=FALSE, out.width='75%', fig.pos='H'}
+To avoid the overdispersion, we need to compare the value of deviance divided by residual deviance with 1.
 
-# model with only price
-
-fit1 <- glm(score ~ price,
-  data = Data,
-  family = binomial(link = "logit"))
-
-plot_model(fit1,
-  type = "pred", title = "",
-  axis.title = c("price", "Probability of pass"))
+```{r}
+# check overdispersion
+deviance(fit3)/df.residual(fit3) 
 ```
+
+The result is less than 1, there is no overdispersion.
+
+## Odds and prediction
+
+Notice that the coefficients of price, countryNew Zealand, other countries are positive, which means that expensive wine are more likely to pass(points is greater than 90).And the all coefficients are significant (p-value of *`r tidy(fit3)[2,5]`*, *`r tidy(fit3)[3,5]`* and *`r tidy(fit3)[4,5]`*), so we qualify the effect of them.
+
+```{r, fig.cap="\\label{fig:model1} Odds Ratio Graph Based on GLM Model ", out.width='75%', fig.pos='H'}
+# odds plot
+plot_model(fit3, show.values = TRUE,
+           title = "Odds (price)", show.p = TRUE)
+```
+
+```{r, fig.cap="\\label{fig:predmodel} Probability of Pass for Italy \\& New Zealand ", out.width='75%', fig.pos='H'}
+# prediction plot
+plot_model(fit3,
+           type = "pred", title = "",
+           axis.title = c("price", "Probability of pass"))
+```
+
+We interpret the odds ratios as follows: New Zealand produced wine’s odds of passing are 8.54 times those of Italy produced wine, the other countries produced wine's odds of passing are 2.79 times those of Italy produced wine. And for every unit increase in price, the expensive wine's odds of passing are 1.06 times those of the cheaper one.
+
+In the probability figure, We can have a more intuitive awareness of the above tendency. For example, Wine with a price of more than 80 pounds has a high probability of getting a score of 90 or more. And wine from Italy only has a 5% chance of getting more than 90 points, while New Zealand produced wine has a more than 35% chance of passing.
 
 # Coclusion and Future Work {#sec:CFW}
+
+After establishing the generalised linear model and comparing them, we found that the price is the most significant factor on wine scores. In addition, after analysis, we found that Riesling wine or Israel wine are easier to reach 90 points than other varieties of wine.
 
 For discovering factors affecting the quality of wine more accurately, we can combine multiple data sets with details of Wineries. Different model, additionally, will be trained and tested for selecting the best model. The targeted model will be neural network, a self-learning model which can handle large amount of new data. Lastly, we will construct a system, which can help business searching and identifying good model. This application would be useful for assigning price and prevent purchasing unqualified wines.
 
 # Reference {#sec:Ref}
 
- Christina, https://cellar.asia/wine/what-is-wine/
+Christina, <https://cellar.asia/wine/what-is-wine/>\`
