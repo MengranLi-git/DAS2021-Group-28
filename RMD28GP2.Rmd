@@ -109,7 +109,7 @@ Similarly, generate a cross-table of variety and score, and test the chi-square.
   adorn_percentages()%>%
   adorn_pct_formatting()%>%
   adorn_ns()%>%
-  knitr::kable(caption = '\\label{tab:varietyscore} Pass\\% and Fail\\% of each Wine Variety')%>%
+  kbl(caption = 'Pass\\% and Fail\\% of each Wine Variety', booktabs = T)%>%
   kable_styling(latex_options = "HOLD_position")
 ```
 
@@ -152,7 +152,8 @@ We will use the generalized linear model to fit a logistic regression model with
 fit1 <- glm(score ~ price + variety,
             data = Data,
             family = binomial(link = "logit"))
-fit1 %>% summary()
+fit1 %>% tidy() %>% kbl(caption = " Summary Statistics of GLM 1", booktabs = T)%>%
+  kable_styling(latex_options = "HOLD_position")
 ```
 Notice that no variety of wine is significant at the 5% significance level.
 
@@ -164,7 +165,8 @@ Similarly, We can use the same method to eliminate interference from too many ca
 fit2 <- glm(score ~ price + country,
             data = Data,
             family = binomial(link = "logit"))
-fit2 %>% summary()
+fit2 %>% tidy() %>% kbl(caption = " Summary Statistics of GLM 2", booktabs = T)%>%
+  kable_styling(latex_options = "HOLD_position")
 ```
 
 We choose variables with p-values less than 0.1. From the summary table, 'New Zealand' and 'Italy' in country and price have a significant influence on the score.
@@ -185,7 +187,8 @@ Data <- Data %>% mutate(
 fit3 <- glm(score ~ price + country,
             data = Data,
             family = binomial(link = "logit"))
-summary(fit3)
+fit3 %>% tidy() %>% kbl(caption = " Summary Statistics of GLM 3", booktabs = T)%>%
+  kable_styling(latex_options = "HOLD_position")
 ```
 
 ```{r}
@@ -203,13 +206,15 @@ glm(score ~ price + province,
     data = New_Zealand,
     family = binomial(link = "logit"),
     ) %>%
-  summary()
+  tidy() %>% kbl(caption = " Summary Statistics of GLM with Country = New Zealand", booktabs = T)%>%
+  kable_styling(latex_options = "HOLD_position")
 Italy <- Data %>% filter(country == "Italy")
 glm(score ~ price + province,
     data = Italy,
     family = binomial(link = "logit"),
     ) %>%
-  summary()
+  tidy() %>% kbl(caption = " Summary Statistics of GLM  wiht country = Italy", booktabs = T)%>%
+  kable_styling(latex_options = "HOLD_position")
 ```
 
 From the summary table of the above model, it can be seen that the province has no significant effect on the score.

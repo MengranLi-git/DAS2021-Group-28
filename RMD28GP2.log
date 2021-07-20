@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2021.7.20)  20 JUL 2021 12:08
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2021.7.20)  20 JUL 2021 13:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -641,6 +641,9 @@ Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 LaTeX Warning: Label `fig:dplot' multiply defined.
 
 
+LaTeX Warning: Label `tab:unnamed-chunk-13' multiply defined.
+
+
 LaTeX Warning: Label `fig:predmodel' multiply defined.
 
 )
@@ -1057,18 +1060,18 @@ bservations，for example, Croa-
 [2] [3]
 File: RMD28GP2_files/figure-latex/dplot-1.pdf Graphic file (type pdf)
 <use RMD28GP2_files/figure-latex/dplot-1.pdf>
-[4] [5] [6] [7] [8] [9]
+[4] [5] [6] [7] [8]
 File: RMD28GP2_files/figure-latex/unnamed-chunk-15-1.pdf Graphic file (type pdf
 )
 <use RMD28GP2_files/figure-latex/unnamed-chunk-15-1.pdf>
-[10]
 File: RMD28GP2_files/figure-latex/unnamed-chunk-16-1.pdf Graphic file (type pdf
 )
 <use RMD28GP2_files/figure-latex/unnamed-chunk-16-1.pdf>
+[9]
 File: RMD28GP2_files/figure-latex/unnamed-chunk-16-2.pdf Graphic file (type pdf
 )
 <use RMD28GP2_files/figure-latex/unnamed-chunk-16-2.pdf>
-[11] [12] (./RMD28GP2.aux)
+[10] [11] (./RMD28GP2.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -1076,12 +1079,12 @@ Package rerunfilecheck Info: File `RMD28GP2.out' has not changed.
 (rerunfilecheck)             Checksum: 5390020594233634EBC2D3935D49A976;2061.
  ) 
 Here is how much of TeX's memory you used:
- 17431 strings out of 478474
- 312163 string characters out of 5856935
- 790475 words of memory out of 5000000
- 37475 multiletter control sequences out of 15000+600000
+ 17434 strings out of 478474
+ 312231 string characters out of 5856935
+ 790625 words of memory out of 5000000
+ 37478 multiletter control sequences out of 15000+600000
  409955 words of font info for 77 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,9n,120p,302b,469s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 87i,9n,120p,302b,467s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on RMD28GP2.pdf (12 pages).
+Output written on RMD28GP2.pdf (11 pages).
