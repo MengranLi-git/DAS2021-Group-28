@@ -44,7 +44,7 @@ The whole data set has 7 variables and 2000 observations.
 
 ```{r}
 # read data
-Data <- read.csv("dataset28.csv")
+Data <- read.csv("../data/dataset28.csv")
 #remove the index
 Data <- Data[, -1]
 # transform the character as factor
@@ -260,16 +260,16 @@ plot_model(fit3, show.values = TRUE,
            title = "Odds (price)", show.p = TRUE)
 ```
 
-```{r, fig.cap="\\label{fig:predmodel} Probability of Pass for Italy \\& New Zealand ", out.width='75%', fig.pos='H',fig.align='center', fig.height= 3}
+```{r, fig.cap="\\label{fig:predmodel} Predicted Probability of Pass", out.width='75%', fig.pos='H',fig.align='center', fig.height= 3}
 # prediction plot
 plot_model(fit3,
            type = "pred", title = "",
            axis.title = c("price", "Probability of pass"))
 ```
 
-We interpret the odds ratios (Fig. \ref{fig:odds}, 3) as follows: New Zealand produced wine's odds of passing are 8.54 times those of Italy produced wine, the other countries produced wine's odds of passing are 2.79 times those of Italy produced wine. And for every unit increase in price, the expensive wine's odds of passing are 1.06 times those of the cheaper one.
+We interpret the odds ratios Fig. \ref{fig:odds} as follows: New Zealand produced wine's odds of passing are 8.54 times those of Italy produced wine, the other countries produced wine's odds of passing are 2.79 times those of Italy produced wine. And for every unit increase in price, the expensive wine's odds of passing are 1.06 times those of the cheaper one.
 
-In the probability figure as Fig. \ref{fig:predmodel}, We can have a more intuitive awareness of the above tendency. For example, Wine with a price of more than 80 pounds has a high probability of getting a score of 90 or more. And wine from Italy only has a 5% chance of getting more than 90 points, while New Zealand produced wine has a more than 35% chance of passing.
+In the predicted probability figure as Fig. 3, \ref{fig:predmodel}, We can have a more intuitive awareness of the above tendency. For the same country, the probability of pass increases fast when the wine price falls between 0 and 80 pounds, and reaches 100% with a wine price of above 200 pounds. Wine with a price of more than 80 pounds has a high probability of getting a score of 90 or more. With the mean price (35.5 pounds), wine from Italy only has a 5% chance of getting more than 90 points, while New Zealand-produced wine has a more than 35% chance of passing.
 
 # Conclusions {#sec:Conc}
 
