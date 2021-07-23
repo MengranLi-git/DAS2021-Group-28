@@ -1,9 +1,9 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2021.7.19)  23 JUL 2021 23:21
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2021.7.19)  23 JUL 2021 23:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**Group_28_Analysis.Rmd.tex
-(./Group_28_Analysis.Rmd.tex
+**Group_28_Analysis.tex
+(./Group_28_Analysis.tex
 LaTeX2e <2020-10-01> patch level 4
 L3 programming layer <2021-02-18> (d:/texlive/2020/texmf-dist/tex/latex/base/ar
 ticle.cls
@@ -541,7 +541,7 @@ Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 \rotheadsize=\dimen262
 \c@nlinenum=\count327
 \TeXr@lab=\toks33
-) (./Group_28_Analysis.Rmd.aux
+) (./Group_28_Analysis.aux
 
 LaTeX Warning: Label `fig:dplot' multiply defined.
 
@@ -549,7 +549,7 @@ LaTeX Warning: Label `fig:dplot' multiply defined.
 LaTeX Warning: Label `fig:predmodel' multiply defined.
 
 )
-\openout1 = `Group_28_Analysis.Rmd.aux'.
+\openout1 = `Group_28_Analysis.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 135.
 LaTeX Font Info:    ... okay on input line 135.
@@ -962,31 +962,30 @@ bservations，For instance, Croa-
  []
 
 [3] [4]
-File: Group_28_Analysis.Rmd_files/figure-latex/dplot-1.pdf Graphic file (type p
-df)
-<use Group_28_Analysis.Rmd_files/figure-latex/dplot-1.pdf>
+File: Group_28_Analysis_files/figure-latex/dplot-1.pdf Graphic file (type pdf)
+<use Group_28_Analysis_files/figure-latex/dplot-1.pdf>
 [5] [6] [7] [8] [9]
-File: Group_28_Analysis.Rmd_files/figure-latex/unnamed-chunk-9-1.pdf Graphic fi
-le (type pdf)
-<use Group_28_Analysis.Rmd_files/figure-latex/unnamed-chunk-9-1.pdf>
-File: Group_28_Analysis.Rmd_files/figure-latex/unnamed-chunk-10-1.pdf Graphic f
-ile (type pdf)
-<use Group_28_Analysis.Rmd_files/figure-latex/unnamed-chunk-10-1.pdf>
-File: Group_28_Analysis.Rmd_files/figure-latex/unnamed-chunk-10-2.pdf Graphic f
-ile (type pdf)
-<use Group_28_Analysis.Rmd_files/figure-latex/unnamed-chunk-10-2.pdf>
-[10] [11] [12] (./Group_28_Analysis.Rmd.aux)
+File: Group_28_Analysis_files/figure-latex/unnamed-chunk-9-1.pdf Graphic file (
+type pdf)
+<use Group_28_Analysis_files/figure-latex/unnamed-chunk-9-1.pdf>
+File: Group_28_Analysis_files/figure-latex/unnamed-chunk-10-1.pdf Graphic file 
+(type pdf)
+<use Group_28_Analysis_files/figure-latex/unnamed-chunk-10-1.pdf>
+File: Group_28_Analysis_files/figure-latex/unnamed-chunk-10-2.pdf Graphic file 
+(type pdf)
+<use Group_28_Analysis_files/figure-latex/unnamed-chunk-10-2.pdf>
+[10] [11] [12] (./Group_28_Analysis.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
  19788 strings out of 476939
- 345408 string characters out of 5826132
- 868002 words of memory out of 5000000
+ 345268 string characters out of 5826132
+ 867986 words of memory out of 5000000
  39435 multiletter control sequences out of 15000+600000
  409963 words of font info for 78 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 98i,9n,122p,708b,372s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 98i,9n,122p,704b,372s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Group_28_Analysis.Rmd.pdf (12 pages).
+Output written on Group_28_Analysis.pdf (12 pages).
