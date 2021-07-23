@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2021.7.19)  20 JUL 2021 21:00
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2021.7.19)  23 JUL 2021 19:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1039,9 +1039,9 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 Missing character: There is no ， (U+FF0C) in font [lmroman10-regular]:mapping=t
 ex-text;!
 
-Underfull \hbox (badness 2142) in paragraph at lines 270--271
+Underfull \hbox (badness 1895) in paragraph at lines 270--271
 []\TU/lmr/m/n/10 We notice that there are several countries who have only few o
-bservations，for example, Croa-
+bservations，For instance, Croa-
  []
 
 [3] [4]
