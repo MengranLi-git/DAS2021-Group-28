@@ -18,6 +18,26 @@ Which properties of wine influence whether the number of points awarded is great
 
 ### Conclusion and discussion
 
+## Structure
+
+[DAS2021-Group-28.Rproj](https://github.com/MengranLi-git/DAS2021-Group-28/blob/main/DAS2021-Group-28.Rproj), R project.
+
+### data
+
+[data28.csv](https://github.com/MengranLi-git/DAS2021-Group-28/blob/main/data/dataset28.csv), for the analysis
+
+### code
+
+[model.R](https://github.com/MengranLi-git/DAS2021-Group-28/blob/main/code/model.R), inital code for modeling
+
+### report 
+
+[Group_28_Analysis.Rmd](https://github.com/MengranLi-git/DAS2021-Group-28/blob/main/report/Group_28_Analysis.Rmd), the report rmd file.
+
+[Group_28_Analysis.pdf](https://github.com/MengranLi-git/DAS2021-Group-28/blob/main/report/Group_28_Analysis.pdf), a generated report.
+
+[RMD work distribution](https://github.com/MengranLi-git/DAS2021-Group-28/blob/main/report/RMD%20work%20distribution)
+
 ## Work Distribution
 
 ### Members 
